@@ -1,0 +1,19 @@
+# Ignore large dataset CSV files
+*.csv
+
+# Ignore final project document templates (keep the PDF report if desired)
+# *.docx
+
+# Python cache and byte-code
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
