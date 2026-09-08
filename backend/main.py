@@ -1,3 +1,33 @@
+"""
+===================================================================================
+Multimodal AI Fact-Checking & Deepfake Verification Pipeline
+Author: Antigravity Advanced Agentic AI
+Architecture: FastAPI + Scikit-Learn NLP + HuggingFace ViT + Google Gemini LLM
+===================================================================================
+
+System Architectural Overview:
+------------------------------
+This production API provides an enterprise-grade, multi-stage fact-verification 
+engine that cross-references user claims across textual, visual, and external knowledge graphs:
+
+1. Textual Disinformation Classifier (Scikit-Learn NLP):
+   - Fast inference engine trained on misinformation corpora.
+   - Extracts semantic embeddings, rhetorical bias cues, and linguistic markers
+     to generate an initial probability distribution (Real vs Fake).
+
+2. Computer Vision Deepfake Classifier (HuggingFace Transformers / ViT):
+   - Ingests user-submitted images or embedded claim graphics.
+   - Leverages a Vision Transformer / ResNet pipeline (`dima806/deepfake_vs_real_image_detection`)
+     to inspect high-frequency Fourier artifacts, facial boundary blurring, and GAN generation signatures.
+
+3. Live External Fact Verification (Google Fact Check Tools API):
+   - Dynamically queries global fact-checking publishers (e.g., Reuters, PolitiFact, Snopes, AFP).
+   - Retrieves authoritative verdict records and debunking articles in real time.
+
+4. Multi-Modal Contextual Synthesis (Google Gemini LLM):
+   - Synthesizes model predictions, computer vision evidence, and live knowledge base claims.
+   - Formulates a structured verdict (Real / Fake / Mixed) with credible citations.
+"""
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
