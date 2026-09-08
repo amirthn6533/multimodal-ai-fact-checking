@@ -40,7 +40,10 @@ import docx
 from io import BytesIO
 from langdetect import detect
 from PIL import Image
-from transformers import pipeline
+try:
+    from transformers import pipeline
+except ImportError:
+    pipeline = None
 import os
 import google.generativeai as genai
 import datetime
@@ -101,11 +104,15 @@ except Exception as e:
     model = None
 
 try:
-    image_detector = pipeline(
-        "image-classification",
-        model="dima806/deepfake_vs_real_image_detection"
-    )
-    logging.info("Image model loaded successfully")
+    if pipeline:
+        image_detector = pipeline(
+            "image-classification",
+            model="dima806/deepfake_vs_real_image_detection"
+        )
+        logging.info("Image model loaded successfully")
+    else:
+        image_detector = None
+        logging.info("Transformers pipeline not installed; running in lightweight text-verification mode.")
 except Exception as e:
     logging.error("Error loading image model: " + str(e))
     image_detector = None
