@@ -1,28 +1,41 @@
-﻿name: AI Pipeline CI
+name: CI
 
 on:
   push:
-    branches: [ master, main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ master, main ]
+    branches: [ main, master ]
+  workflow_dispatch:
 
 jobs:
   test:
+    name: Test & Quality Checks
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
 
-      - name: Set up Python
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: ${{ matrix.python-version }}
           cache: 'pip'
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r backend/requirements.txt
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f backend/requirements.txt ]; then pip install -r backend/requirements.txt; fi
+          pip install pytest flake8
 
-      - name: Run test suite
+      - name: Syntax & Error Check (flake8)
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=.git,__pycache__,venv
+
+      - name: Execute Automated Tests
         run: |
           pytest backend/tests/
