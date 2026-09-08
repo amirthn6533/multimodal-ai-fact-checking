@@ -11,6 +11,7 @@ from io import BytesIO
 from langdetect import detect
 from PIL import Image
 from transformers import pipeline
+import os
 import google.generativeai as genai
 import datetime
 
@@ -20,13 +21,18 @@ import datetime
 logging.basicConfig(level=logging.INFO)
 
 # -----------------------------
-# AI Setup (Free Tier)
+# AI Setup (Environment Variables)
 # -----------------------------
-GEMINI_API_KEY = "AIzaSyAJh4b3DhPwwSjaP5hZYunF_zThEiGcmTI"
-GOOGLE_FACT_CHECK_API_KEY = "AIzaSyDqIa5yKoxjyh-QcTnvDHzRgsKXkd1L_Tg"
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+GOOGLE_FACT_CHECK_API_KEY = os.getenv("GOOGLE_FACT_CHECK_API_KEY", "")
 
-genai.configure(api_key=GEMINI_API_KEY)
-gemini_model = genai.GenerativeModel('gemini-2.0-flash')
+gemini_model = None
+if GEMINI_API_KEY:
+    try:
+        genai.configure(api_key=GEMINI_API_KEY)
+        gemini_model = genai.GenerativeModel('gemini-2.0-flash')
+    except Exception as e:
+        logging.warning(f"Could not configure Gemini model: {e}")
 
 # -----------------------------
 # App
@@ -53,8 +59,13 @@ trending_checks = []
 # Load Models
 # -----------------------------
 try:
-    model = joblib.load("model.pkl")
-    logging.info("Text model loaded successfully")
+    model_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "model.pkl")
+    if os.path.exists(model_file):
+        model = joblib.load(model_file)
+        logging.info("Text model loaded successfully")
+    else:
+        model = None
+        logging.warning("model.pkl not found at path")
 except Exception as e:
     logging.error("Error loading model: " + str(e))
     model = None

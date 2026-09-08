@@ -1,7 +1,9 @@
-﻿# 🔍 Multimodal AI Fact-Checking & Deepfake Detection System
+# 🔍 Multimodal AI Fact-Checking & Deepfake Detection System
 
 <div align="center">
 
+[![AI Pipeline CI](https://github.com/amirthn6533/multimodal-ai-fact-checking/actions/workflows/ci.yml/badge.svg)](https://github.com/amirthn6533/multimodal-ai-fact-checking/actions)
+![Status: Research & Deep Learning Prototype](https://img.shields.io/badge/Status-Research_Prototype_v1.0-blueviolet?style=for-the-badge&logo=openai)
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-Deep_Learning-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-REST_Backend-009688?style=for-the-badge&logo=fastapi&logoColor=white)

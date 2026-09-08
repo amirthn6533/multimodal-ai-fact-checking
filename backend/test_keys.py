@@ -1,10 +1,11 @@
+import os
 import google.generativeai as genai
 import requests
 import logging
 
-# Load keys from main.py
-GEMINI_API_KEY = "AIzaSyAJh4b3DhPwwSjaP5hZYunF_zThEiGcmTI"
-GOOGLE_FACT_CHECK_API_KEY = "AIzaSyDqIa5yKoxjyh-QcTnvDHzRgsKXkd1L_Tg"
+# Load keys from environment
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+GOOGLE_FACT_CHECK_API_KEY = os.getenv("GOOGLE_FACT_CHECK_API_KEY", "")
 
 def test_gemini():
     print("--- Testing Gemini AI ---")

@@ -1,7 +1,7 @@
 import joblib
 import os
 
-model_path = r'C:\Users\AMIR\OneDrive\دسکتاپ\New folder (3)\Multimodal AI Fact-Checking and Deepfake Detection System\backend\model.pkl'
+model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "model.pkl")
 
 if not os.path.exists(model_path):
     print("Model file not found!")
